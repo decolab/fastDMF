@@ -1,0 +1,55 @@
+stages:
+  - build
+  - test
+
+
+Build:
+  # The goal of this job is to test the compilation of the underlying C++ code,
+  # so using only one of the two APIs suffices.
+  stage: build
+  image: cmaumet/octave-spm
+  only:
+    refs:
+      - master
+  script:
+    - echo "Starting compilation"
+    - cd matlab
+    - octave -W --eval "mex DMF.cpp"
+  artifacts:
+    paths:
+      - matlab/*mex
+    expire_in: 1 hr
+
+
+Test Octave:
+  image: cmaumet/octave-spm
+  stage: test
+  only:
+    refs:
+      - master
+  script:
+    - echo "Starting Octave test suite"
+    - pwd
+    - octave -W test/octave_test.m
+    - echo "Tests done!"
+
+
+Test Python:
+  image: python:3.9
+  stage: test
+  only:
+    refs:
+      - master
+  script:
+    - echo "Starting Python test suite"
+    - pwd
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - apt-get update
+    - apt-get install -y --no-install-recommends libboost-python-dev libboost-numpy-dev
+    - cd python
+    - python setup.py install
+    - python ../test/python_test.py
+    - echo "Tests done!"
+

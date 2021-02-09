@@ -1,0 +1,17 @@
+# Vim-related files
+*~
+*.swp
+*.swo
+
+# C++-related files
+*.mexa64
+*.mex
+*.out
+*.o
+*.so
+
+# Python-related files
+__pycache__
+build
+dist
+
