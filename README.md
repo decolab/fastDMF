@@ -26,6 +26,60 @@ under the MPL licence.
 
 Pedro Mediano, Andrea Luppi, and Fernando Rosas, Feb 2021
 
+[[_TOC_]]
+
+
+## Simulation parameters
+
+The model equations are parameterised by certain properties of the brain's
+neural, synaptic, and hemodynamic processes. The list of default parameters is
+provided by the functions `DefaultParams.m` (in Octave/Matlab) and
+`default_params` (in Python), and the full list is provided in the table below:
+
+| Parameter name |  Default  | Description |
+| -------------- | --------- | ----------- |
+| `C`            | See below | Structural (i.e. anatomical) connecivity matrix |
+| `receptors`    | 0\*       | Receptor density (AU) |
+| `dt`           | 0.1       | DMF integration step (ms) |
+| `taon`         | 100       | NMDA characteristic time (ms) |
+| `taog`         | 10        | GABA characteristic time (ms) |
+| `gamma`        | 0.641     | Kinetic parameter of excitation |
+| `sigma`        | 0.01      | Noise standard deviation (nA) |
+| `JN`           | 0.15      | Excitatory synaptic coupling (nA) |
+| `I0`           | 0.382     | Effective external input (nA) |
+| `Jexte`        | 1         | External-to-excitatory coupling |
+| `Jexti`        | 0.7       | External-to-inhibitory coupling |
+| `w`            | 1.4       | Local excitatory recurrence |
+| `g_e`          | 0.16      | Excitatory conductance |
+| `Ie`           | 125       | Excitatory threshold for nonlinearity |
+| `ce`           | 310       | Excitatory nonlinear shape parameter |
+| `g_i`          | 0.087     | Inhibitory conductance |
+| `Ii`           | 177       | Inhibitory threshold for nonlinearity |
+| `ci`           | 615       | Inhibitory nonlinear shape parameter |
+| `wgaine`       | 0         | Excitatory neuromodulatory gain |
+| `wgaini`       | 0         | Inhibitory neuromodulatory gain |
+| `G`            | 2         | Global coupling parameter |
+| `J`            | See below | Feedback inhibitory control parameter |
+| `TR`           | 2         | BOLD signal sampling frequency (s) |
+| `dtt`          | 0.001     | BW integration step (s) |
+| `batch_size`   | 5000      | Parallel computation batch size |
+
+Parameter `C` is the structural connectivity matrix of the model, typically
+obtained via diffusion tensor imaging (DTI). The default matrix provided was
+obtained from the [HCP dataset]() using a 100-node Schaeffer parcellation.
+
+Parameter `J` represents the strength of the feedback inhibitory control at
+each node. In Deco *et al.* [(2018)](www.doi.org/10.1016/j.cub.2018.07.083) it
+is optimised to keep all firing rates at approximately 3 Hz. The default uses a
+heuristic `J = 0.75*G*S + 1`, where `S` is the node strength in the structural
+connectivity matrix.
+
+Parameters marked with an asterisk (\*) may be provided as a scalar or as an
+array of length equal to the number of nodes in `C`, in which case they are
+taken to represent a value for each ROI.
+
+For further information on these parameters, see the [references](#references).
+
 
 ## Usage in Octave/Matlab
 
@@ -127,11 +181,6 @@ bold = dmf.run(params, nb_steps)
 
 ## References
 
-* Deco, G., Hagmann, P., Romani, G. L., Mantini, D. & Corbetta, M. (2014). _How
-  local excitation-inhibition ratio impacts the whole brain dynamics_. J.
-  Neurosci. 34, 7886–7898, DOI:
-  [10.1523/JNEUROSCI.5068-13.2014](www.doi.org/10.1523/JNEUROSCI.5068-13.2014)
-
 * Deco, G., _et al_. (2018). _Whole-brain multimodal neuroimaging model using
   serotonin receptor maps explains non-linear functional effects of LSD_. Curr.
   Biol. 1–10, DOI:
@@ -141,4 +190,9 @@ bold = dmf.run(params, nb_steps)
   Tagliazucchi, E. & Cofre, R. (2020). _A mechanistic model of the neural
   entropy increase elicited by psychedelic drugs_. Sci. Rep. 10, 17725, DOI:
   [10.1038/s41598-020-74060-6](www.doi.org/10.1038/s41598-020-74060-6)
+
+* Deco, G., Hagmann, P., Romani, G. L., Mantini, D. & Corbetta, M. (2014). _How
+  local excitation-inhibition ratio impacts the whole brain dynamics_. J.
+  Neurosci. 34, 7886–7898, DOI:
+  [10.1523/JNEUROSCI.5068-13.2014](www.doi.org/10.1523/JNEUROSCI.5068-13.2014)
 
