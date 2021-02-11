@@ -86,8 +86,8 @@ def default_params(**kwargs):
     params['G']         = 2     # Global Coupling Parameter
 
     # Balloon-Windkessel parameters (from firing rates to BOLD signal)
-    params['subsamp']      = 2     # number of seconds to sample bold signal
-    params['dtt']          = 0.001 # seconds
+    params['TR']  = 2     # number of seconds to sample bold signal
+    params['dtt'] = 0.001 # BW integration step, in seconds
 
     # Parallel computation parameters
     params['batch_size'] = 5000
@@ -140,7 +140,7 @@ def run(params, nb_steps, desired_out='bold'):
 
     # Pre-allocate memory for results
     N = params['C'].shape[0]
-    nb_steps_bold = round(nb_steps*params['dtt']/params['subsamp'])
+    nb_steps_bold = round(nb_steps*params['dtt']/params['TR'])
     if return_rate:
         nb_steps_rate = nb_steps
     else:

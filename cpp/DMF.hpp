@@ -82,7 +82,7 @@ void checkParams(const ParamStruct &params) {
     std::vector<std::string> required_fields = {"C", "receptors", "dt",
             "taon", "taog", "gamma", "sigma", "JN", "I0", "Jexte", "Jexti",
             "w", "g_e", "Ie", "ce", "g_i", "Ii", "ci", "wgaine", "wgaini",
-            "G", "subsamp", "dtt", "batch_size"};
+            "G", "TR", "dtt", "batch_size"};
     for (const auto& field : required_fields) {
         if (!params.count(field.c_str())) {
             std::string s("Missing field in parameter struct: ");
@@ -142,10 +142,10 @@ public:
     BOLDIntegrator(ParamStruct params, size_t nb_rate_steps, size_t N_in) :
               dt(params["dtt"][0]),
               N(N_in),
-              save_every(params["subsamp"][0]/params["dtt"][0]),
-              nb_bold_steps(nb_rate_steps*params["dtt"][0]/params["subsamp"][0]),
+              save_every(params["TR"][0]/params["dtt"][0]),
+              nb_bold_steps(nb_rate_steps*params["dtt"][0]/params["TR"][0]),
               rate_buffer_size(nb_rate_steps),
-              b(NULL, N_in, nb_rate_steps*params["dtt"][0]/params["subsamp"][0]),
+              b(NULL, N_in, nb_rate_steps*params["dtt"][0]/params["TR"][0]),
               r(NULL, N_in, nb_rate_steps),
               s(NULL, N_in),
               f(NULL, N_in),

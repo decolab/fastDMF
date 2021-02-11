@@ -164,7 +164,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
     // Pre-allocate memory for results using Matlab's factory.
     // From here on these arrays are passed by reference and re-mapped,
     // avoiding any further memory allocations.
-    size_t nb_steps_bold = nb_steps*params["dtt"][0]/params["subsamp"][0];
+    size_t nb_steps_bold = nb_steps*params["dtt"][0]/params["TR"][0];
     size_t batch_size = params["batch_size"][0];
 
     mxArray *rate_res, *bold_res;

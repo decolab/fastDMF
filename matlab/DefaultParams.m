@@ -53,8 +53,8 @@ params.wgaini    = 0;     % neuromodulatory gain
 params.G         = 2;     % Global Coupling Parameter
 
 % Balloon-Windkessel parameters (from firing rates to BOLD signal)
-params.subsamp      = 2;     % number of seconds to sample bold signal
-params.dtt          = 0.001; % seconds
+params.TR  = 2;     % number of seconds to sample bold signal
+params.dtt = 0.001; % BW integration step, in seconds
 
 % Parallel computation parameters
 params.batch_size = 5000;
