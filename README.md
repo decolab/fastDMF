@@ -66,7 +66,9 @@ provided by the functions `DefaultParams.m` (in Octave/Matlab) and
 
 Parameter `C` is the structural connectivity matrix of the model, typically
 obtained via diffusion tensor imaging (DTI). The default matrix provided was
-obtained from the [HCP dataset]() using a 100-node Schaeffer parcellation.
+obtained from the 1200-subject release of the [HCP
+dataset](http://www.humanconnectome.org) using a 100-node Schaeffer
+parcellation.
 
 Parameter `J` represents the strength of the feedback inhibitory control at
 each node. In Deco *et al.* [(2018)](www.doi.org/10.1016/j.cub.2018.07.083) it
