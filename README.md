@@ -74,7 +74,8 @@ Parameter `J` represents the strength of the feedback inhibitory control at
 each node. In Deco *et al.* [(2018)](www.doi.org/10.1016/j.cub.2018.07.083) it
 is optimised to keep all firing rates at approximately 3 Hz. The default uses a
 heuristic `J = 0.75*G*S + 1`, where `S` is the node strength in the structural
-connectivity matrix.
+connectivity matrix (Herzog _et al_.,
+[2020](www.doi.org/10.1038/s41598-020-74060-6); in prep.).
 
 Parameters marked with an asterisk (\*) may be provided as a scalar or as an
 array of length equal to the number of nodes in `C`, in which case they are
@@ -182,6 +183,10 @@ bold = dmf.run(params, nb_steps)
 
 
 ## References
+
+* Luppi, A., _et al_. (2021). _Paths to oblivion: Common neural mechanisms of
+  anaesthesia and disorders of consciousness_. BioRxiv. DOI:
+  [10.1101/2021.02.14.431140](https://doi.org/10.1101/2021.02.14.431140)
 
 * Deco, G., _et al_. (2018). _Whole-brain multimodal neuroimaging model using
   serotonin receptor maps explains non-linear functional effects of LSD_. Curr.
