@@ -191,15 +191,15 @@ bold = dmf.run(params, nb_steps)
 * Deco, G., _et al_. (2018). _Whole-brain multimodal neuroimaging model using
   serotonin receptor maps explains non-linear functional effects of LSD_. Curr.
   Biol. 1–10, DOI:
-  [10.1016/j.cub.2018.07.083](www.doi.org/10.1016/j.cub.2018.07.083)
+  [10.1016/j.cub.2018.07.083](https://www.doi.org/10.1016/j.cub.2018.07.083)
 
 * Herzog, R., Mediano, P., Rosas, F., Carhart-Harris, R., Sanz Perl, Y.,
   Tagliazucchi, E. & Cofre, R. (2020). _A mechanistic model of the neural
   entropy increase elicited by psychedelic drugs_. Sci. Rep. 10, 17725, DOI:
-  [10.1038/s41598-020-74060-6](www.doi.org/10.1038/s41598-020-74060-6)
+  [10.1038/s41598-020-74060-6](https://www.doi.org/10.1038/s41598-020-74060-6)
 
 * Deco, G., Hagmann, P., Romani, G. L., Mantini, D. & Corbetta, M. (2014). _How
   local excitation-inhibition ratio impacts the whole brain dynamics_. J.
   Neurosci. 34, 7886–7898, DOI:
-  [10.1523/JNEUROSCI.5068-13.2014](www.doi.org/10.1523/JNEUROSCI.5068-13.2014)
+  [10.1523/JNEUROSCI.5068-13.2014](https://www.doi.org/10.1523/JNEUROSCI.5068-13.2014)
 
