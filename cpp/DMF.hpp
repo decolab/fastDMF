@@ -352,7 +352,7 @@ public:
 
     inline Eigen::ArrayXd curr2rate(const Eigen::ArrayXd& x, double wgain, double g,
            double I, double c) {
-        Eigen::ArrayXd y = (c*x-I)*(1+receptors*wgain);
+        Eigen::ArrayXd y = c*(x-I)*(1+receptors*wgain);
         return y/(1-exp(-g*y));
     }
 
