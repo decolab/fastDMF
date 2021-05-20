@@ -51,10 +51,10 @@ provided by the functions `DefaultParams.m` (in Octave/Matlab) and
 | `Jexti`        | 0.7       | External-to-inhibitory coupling |
 | `w`            | 1.4       | Local excitatory recurrence |
 | `g_e`          | 0.16      | Excitatory conductance |
-| `Ie`           | 125       | Excitatory threshold for nonlinearity |
+| `Ie`           | 0.403     | Excitatory threshold for nonlinearity |
 | `ce`           | 310       | Excitatory nonlinear shape parameter |
 | `g_i`          | 0.087     | Inhibitory conductance |
-| `Ii`           | 177       | Inhibitory threshold for nonlinearity |
+| `Ii`           | 0.288     | Inhibitory threshold for nonlinearity |
 | `ci`           | 615       | Inhibitory nonlinear shape parameter |
 | `wgaine`       | 0         | Excitatory neuromodulatory gain |
 | `wgaini`       | 0         | Inhibitory neuromodulatory gain |
