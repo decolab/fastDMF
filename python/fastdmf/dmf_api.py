@@ -7,6 +7,7 @@ Pedro Mediano, Jun 2020
 """
 import _DMF
 import numpy as np
+import scipy.io as sio
 
 __all__ = ['default_params', 'run']
 
@@ -57,13 +58,23 @@ def default_params(**kwargs):
     if 'C' not in kwargs:
         C = np.loadtxt(__file__.rstrip('dmf_api.py') + 'DTI_fiber_consensus_HCP.csv', delimiter=',')
         C = C/C.max()
+        #C = np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]]) #np.array([[0, 1], [1, 0]])
     else:
         C = []
+        
+    if 'L' not in kwargs:
+       mat_contents = sio.loadmat("/Users/corneliasheeran/DMF_2.0/python/fastdmf/Schaefer100_HCP_DTI_length.mat")
+       L = mat_contents['connectivity']
+       #L = np.array([[0, 30, 0], [30, 0, 40], [0, 40, 0]]) #np.array([[0, 50], [50, 0]])
+    else:
+        L = []
 
 
     # DMF parameters
     params              = {}
     params['C']         = C        # structural connectivity
+    params['L']         = L        # length matrix
+    params['u']         = 0.11      # speed of conduction 11m/s
     params['receptors'] = 0        # receptor density
     params['dt']        = 0.1      # ms
     params['taon']      = 100      # NMDA tau ms
@@ -72,7 +83,7 @@ def default_params(**kwargs):
     params['sigma']     = 0.01     # Noise SD nA
     params['JN']        = 0.15     # excitatory synaptic coupling nA
     params['I0']        = 0.382    # effective external input nA
-    params['Jexte']     = 1.       # external->E coupling
+    params['Jexte']     = 1 #np.array([10, 2, 2])       # external->E coupling
     params['Jexti']     = 0.7      # external->I coupling
     params['w']         = 1.4      # local excitatory recurrence
     params['g_e']       = 0.16     # excitatory conductance

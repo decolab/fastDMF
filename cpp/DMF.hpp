@@ -79,7 +79,8 @@ Eigen::ArrayXd ensureArray(const ParamStruct &params, std::string field, size_t 
 void checkParams(const ParamStruct &params) {
 
     // Check that parameter struct has the necessary fields
-    std::vector<std::string> required_fields = {"C", "receptors", "dt",
+    //EDIT 1
+    std::vector<std::string> required_fields = {"C", "L", "u", "receptors", "dt",
             "taon", "taog", "gamma", "sigma", "JN", "I0", "Jexte", "Jexti",
             "w", "g_e", "Ie", "ce", "g_i", "Ii", "ci", "wgaine", "wgaini",
             "G", "TR", "dtt", "batch_size"};
@@ -231,9 +232,9 @@ public:
      *
      * @param range range of firing rate indices to use
      */
-    void compute_async(Range r) {
-        th = std::thread([=] { compute_range(r); });
-    }
+   // void compute_async(Range r) {
+     //   th = std::thread([=] { compute_range(r); });
+ //   }
 
     /**
      * Join the thread in which the integrator is computing asynchronously,
@@ -270,7 +271,9 @@ public:
     double I0;
     double w;
     double JN;
+    double u;
     Eigen::MatrixXd C;
+    Eigen::ArrayXXd L;
     double G;
     double gamma;
     double sigma;
@@ -304,7 +307,9 @@ public:
      */
     DMFSimulator(ParamStruct params, size_t nb_steps_in, size_t N_in,
                  bool return_rate_in, bool return_bold_in) :
+            //EDIT 3
             dt(params["dt"][0]),
+            u(params["u"][0]),
             I0(params["I0"][0]),
             w(params["w"][0]),
             JN(params["JN"][0]),
@@ -333,6 +338,7 @@ public:
             bold_int(params, nb_steps, N_in) {
 
               C = Eigen::Map<const Eigen::MatrixXd>(params["C"], N, N);
+              L = Eigen::Map<const Eigen::MatrixXd>(params["L"],  N, N);
 
               receptors = ensureArray(params, "receptors", N);
               Jexte     = ensureArray(params, "Jexte", N);
@@ -374,37 +380,130 @@ public:
         sn.fill(0.001);
         sg.fill(0.001);
         Eigen::ArrayXd rnd = Eigen::ArrayXd::Zero(N);
+        
+        int delay[N][N]; //delay array
+        int max = 0;    //max delay value
+        
+        //build delay array
+        for (int i=0; i<N; ++i) {
+            for (int j=0; j<N; ++j) {
 
+                delay[i][j] = static_cast<int> (L(i,j)/u); //one step = one milisecond
+            }
+        }
+        
+        //find max delay value
+         for (int i = 0; i < N; i++) {
+             for (int j = 0; j < N; j++) {
+                 
+                 if (delay[i][j] > max){
+                    max = delay[i][j];
+                 }
+             }
+         }
+        
+        
+        Eigen::MatrixXd C_all  = Eigen::MatrixXd::Zero(N, N*(max+1)); //eigen matrix to hold all C_taus
+        
+        //build C_all
+        for (int d=0; d<(max+1); ++d) {
+            //delay from 0 to max delay
+            for (int i=0; i<N; ++i) {
+                for (int j=0; j<N; ++j) {
+
+                    if (delay[i][j] == d) {
+                        C_all(i, N*d + j) = C(i, j);
+                    }
+                }
+            }
+        }
+        
+        
+        Eigen::ArrayXd delay_vec(N);
+        
+        Eigen::MatrixXd buffer_cond = Eigen::MatrixXd::Zero(max+1, N);
+        Eigen::VectorXd buffer_vec(N);
+        buffer_vec.fill(0);
+        Eigen::MatrixXd C_tau = Eigen::MatrixXd::Zero(N, N);
+        
+        
+        //BEGINNING:
         for (size_t t = 0; t < nb_steps; t++) {
 
             size_t rate_idx = t % rate_size;
+            delay_vec.fill(0.0);
+            
+            int index_cond = t % (max + 1);
+            
+            buffer_cond(index_cond, Eigen::all) = sn.matrix();
+            
 
+            if (t < max) {
+                for (size_t tau = 0; tau < t+1; tau++) {
+                    //sum up all delay values up to tau = t
+                    
+                    buffer_vec = buffer_cond((index_cond - tau), Eigen::all);
+                    int start = tau*N;
+                    int end = (tau+1)*N - 1;
+                    C_tau = C_all(Eigen::all, Eigen::seq(start, end));
+                    
+                    delay_vec += (C_tau*buffer_vec).array();
+                    
+                }
+            }
+            else {
+                for (size_t tau = 0; tau < max+1; tau++) {
+                    //else sum up all delay values up to tau = max delay (i.e. all delays)
+                    
+                    //map negative indicies to equivalent postive index
+                    int step_back = index_cond - tau;
+                    int new_index;
+                    
+                    if (step_back < 0) {
+                        new_index = -(abs(step_back) % (max+1)) + 1 + max;
+                    } else {
+                        new_index = step_back;
+                    }
+                    
+                    buffer_vec = buffer_cond(new_index, Eigen::all);
+                    int start = tau*N;
+                    int end = (tau+1)*N - 1;
+                    C_tau = C_all(Eigen::all, Eigen::seq(start, end));
+                    
+                    delay_vec += (C_tau*buffer_vec).array();
+
+                }
+            }
+
+            
             for (size_t dummy = 0; dummy < steps_per_millisec; dummy++) {
-                Eigen::ArrayXd xn = I0*Jexte + w*JN*sn + G*JN*(C*sn.matrix()).array() - J*sg;
+                
+                Eigen::ArrayXd xn = I0*Jexte + w*JN*sn + G*JN*delay_vec - J*sg;
                 Eigen::ArrayXd xg = I0*Jexti + JN*sn - sg;
 
                 rn.col(rate_idx) = curr2rate(xn, wgaine, g_e, Ie, ce);
                 Eigen::ArrayXd rg = curr2rate(xg, wgaini, g_i, Ii, ci);
 
                 rnd = rnd.unaryExpr([&n, &e](double dummy){return n(e);});
-                sn += dt*(-sn/taon+(1-sn)*gamma*rn.col(rate_idx)/1000) + rnd;
+                sn += dt*(-sn/taon+(1-sn)*gamma*rn.col(rate_idx)/1000); //+ rnd;
                 sn = sn.unaryExpr(&clip);
 
                 rnd = rnd.unaryExpr([&n, &e](double dummy){return n(e);});
-                sg += dt*(-sg/taog+rg/1000) + rnd;
+                sg += dt*(-sg/taog+rg/1000); //+ rnd;
                 sg = sg.unaryExpr(&clip);
             }
 
+            
             auto start = std::chrono::steady_clock::now();
             if (return_bold && ( ((t+1) % batch_size) == 0)) {
-                bold_int.join();
+                //bold_int.join();
 
-                bold_int.compute_async(Range(rate_idx - batch_size + 1, rate_idx));
+                bold_int.compute_range(Range(rate_idx - batch_size + 1, rate_idx));
 
                 last_bold = (rate_idx + 1) % batch_size;
 
                 #ifdef NO_PARALLEL
-                bold_int.join();
+                //bold_int.join();
                 #endif
             }
             auto end = std::chrono::steady_clock::now();
@@ -431,4 +530,3 @@ public:
 };
 
 #endif
-

@@ -1,8 +1,9 @@
 from setuptools import setup, Extension
 
 ext = Extension('_DMF',
-                libraries = ['boost_python3', 'boost_numpy3'],
-                sources   = ['fastdmf/DMF.cpp'])
+                libraries = ['boost_python38', 'boost_numpy38'],
+                sources   = ['fastdmf/DMF.cpp'],
+		extra_compile_args=['-std=c++11'])
 
 setup(name              = 'fastdmf',
       version          = '0.1',
