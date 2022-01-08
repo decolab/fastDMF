@@ -276,8 +276,6 @@ public:
     double sigma;
     double taog;
     double taon;
-    double wgaine;
-    double wgaini;
     double g_e;
     double g_i;
     double Ie;
@@ -289,7 +287,7 @@ public:
     size_t nb_steps, N, batch_size, steps_per_millisec, seed;
     bool return_rate, return_bold;
 
-    Eigen::ArrayXd sn, sg, J, receptors, Jexte, Jexti;
+    Eigen::ArrayXd sn, sg, J, receptors, Jexte, Jexti, wgaine, wgaini;
 
     BOLDIntegrator bold_int;
 
@@ -313,8 +311,6 @@ public:
             sigma(params["sigma"][0]),
             taog(params["taog"][0]),
             taon(params["taon"][0]),
-            wgaine(params["wgaine"][0]),
-            wgaini(params["wgaini"][0]),
             g_e(params["g_e"][0]),
             g_i(params["g_i"][0]),
             Ie(params["Ie"][0]),
@@ -335,6 +331,8 @@ public:
               C = Eigen::Map<const Eigen::MatrixXd>(params["C"], N, N);
 
               receptors = ensureArray(params, "receptors", N);
+              wgaine     = ensureArray(params, "wgaine", N);
+              wgaini     = ensureArray(params, "wgaini", N);
               Jexte     = ensureArray(params, "Jexte", N);
               Jexti     = ensureArray(params, "Jexti", N);
               J         = ensureArray(params, "J", N);
@@ -350,7 +348,7 @@ public:
     };
 
 
-    inline Eigen::ArrayXd curr2rate(const Eigen::ArrayXd& x, double wgain, double g,
+    inline Eigen::ArrayXd curr2rate(const Eigen::ArrayXd& x, const Eigen::ArrayXd& wgain, double g,
            double I, double c) {
         Eigen::ArrayXd y = c*(x-I)*(1+receptors*wgain);
         return y/(1-exp(-g*y));

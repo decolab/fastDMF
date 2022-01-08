@@ -104,3 +104,18 @@ avg_r = mean(r, 2);
 
 assert(avg_r(2) > avg_r(1));
 
+
+%% Test region-specific receptor gains
+for s={'wgaine', 'wgaini'}
+  params = DefaultParams('C', eye(2), 'receptors', 1, s{1}, 1, 'sigma', 0);
+  nb_steps = 4000;
+  [r, b] = DMF(params, nb_steps, 'both');
+  params.(s{1}) = [1; 2];
+  [r2, b2] = DMF(params, nb_steps, 'both');
+
+  assert(mean(abs(r(1,:) - r2(1,:))) < tol);
+  assert(mean(abs(b(1,:) - b2(1,:))) < tol);
+  assert(mean(abs(r(2,:) - r2(2,:))) > tol);
+  assert(mean(abs(b(2,:) - b2(2,:))) > tol);
+end
+
