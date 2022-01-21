@@ -66,7 +66,7 @@ end
 
 % If feedback inhibitory control not provided, use heuristic
 if ~any(strcmp(varargin, 'J'))
-  params.J = 1.5*params.G*sum(params.C, 1)' + 1;
+  params.J = 0.75*params.G*sum(params.C, 1)' + 1;
 end
 
 end

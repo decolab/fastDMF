@@ -98,7 +98,7 @@ def default_params(**kwargs):
 
     # If feedback inhibitory control not provided, use heuristic
     if 'J' not in kwargs:
-        params['J'] = 1.5*params['G']*params['C'].sum(axis=0).squeeze() + 1
+        params['J'] = 0.75*params['G']*params['C'].sum(axis=0).squeeze() + 1
 
     return params
 
