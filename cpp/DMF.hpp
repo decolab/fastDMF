@@ -81,7 +81,7 @@ void checkParams(const ParamStruct &params) {
     // Check that parameter struct has the necessary fields
     std::vector<std::string> required_fields = {"C", "receptors", "dt",
             "taon", "taog", "gamma", "sigma", "JN", "I0", "Jexte", "Jexti",
-            "w", "g_e", "Ie", "ce", "g_i", "Ii", "ci", "wgaine", "wgaini",
+            "w", "g_e", "Ie", "de", "g_i", "Ii", "di", "wgaine", "wgaini",
             "G", "TR", "dtt", "batch_size"};
     for (const auto& field : required_fields) {
         if (!params.count(field.c_str())) {
@@ -280,8 +280,8 @@ public:
     double g_i;
     double Ie;
     double Ii;
-    double ce;
-    double ci;
+    double de;
+    double di;
     double dtt;
 
     size_t nb_steps, N, batch_size, steps_per_millisec, seed;
@@ -315,8 +315,8 @@ public:
             g_i(params["g_i"][0]),
             Ie(params["Ie"][0]),
             Ii(params["Ii"][0]),
-            ce(params["ce"][0]),
-            ci(params["ci"][0]),
+            de(params["de"][0]),
+            di(params["di"][0]),
             dtt(params["dtt"][0]),
             nb_steps(nb_steps_in),
             N(N_in),
@@ -349,9 +349,9 @@ public:
 
 
     inline Eigen::ArrayXd curr2rate(const Eigen::ArrayXd& x, const Eigen::ArrayXd& wgain, double g,
-           double I, double c) {
-        Eigen::ArrayXd y = c*(x-I)*(1+receptors*wgain);
-        return y/(1-exp(-g*y));
+           double I, double d) {
+        Eigen::ArrayXd y = g*(x-I)*(1+receptors*wgain);
+        return y/(1-exp(-d*y));
     }
 
 
@@ -381,8 +381,8 @@ public:
                 Eigen::ArrayXd xn = I0*Jexte + w*JN*sn + G*JN*(C*sn.matrix()).array() - J*sg;
                 Eigen::ArrayXd xg = I0*Jexti + JN*sn - sg;
 
-                rn.col(rate_idx) = curr2rate(xn, wgaine, g_e, Ie, ce);
-                Eigen::ArrayXd rg = curr2rate(xg, wgaini, g_i, Ii, ci);
+                rn.col(rate_idx) = curr2rate(xn, wgaine, g_e, Ie, de);
+                Eigen::ArrayXd rg = curr2rate(xg, wgaini, g_i, Ii, di);
 
                 rnd = rnd.unaryExpr([&n, &e](double dummy){return n(e);});
                 sn += dt*(-sn/taon+(1-sn)*gamma*rn.col(rate_idx)/1000) + rnd;

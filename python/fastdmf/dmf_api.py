@@ -75,12 +75,12 @@ def default_params(**kwargs):
     params['Jexte']     = 1.       # external->E coupling
     params['Jexti']     = 0.7      # external->I coupling
     params['w']         = 1.4      # local excitatory recurrence
-    params['g_e']       = 0.16     # excitatory conductance
+    params['de']        = 0.16     # excitatory non linear shape parameter
     params['Ie']        = 125/310  # excitatory threshold for nonlinearity
-    params['ce']        = 310.     # excitatory non linear shape parameter
-    params['g_i']       = 0.087    # inhibitory conductance
+    params['g_e']       = 310.     # excitatory conductance
+    params['di']        = 0.087    # inhibitory non linear shape parameter
     params['Ii']        = 177/615  # inhibitory threshold for nonlinearity
-    params['ci']        = 615.     # inhibitory non linear shape parameter
+    params['g_i']       = 615.     # inhibitory conductance
     params['wgaine']    = 0        # neuromodulatory gain
     params['wgaini']    = 0        # neuromodulatory gain
     params['G']         = 2        # Global Coupling Parameter
