@@ -201,3 +201,9 @@ bold = dmf.run(params, nb_steps)
   Neurosci. 34, 7886–7898, DOI:
   [10.1523/JNEUROSCI.5068-13.2014](https://www.doi.org/10.1523/JNEUROSCI.5068-13.2014)
 
+## Contact
+
+For any questions, feedback, or collaboration inquiries, please contact **Dr. Pedro Mediano** at *Imperial College London* via [p.mediano@imperial.ac.uk](mailto:p.mediano@imperial.ac.uk).
+
+
+
