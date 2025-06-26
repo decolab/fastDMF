@@ -26,8 +26,6 @@ under the MPL licence.
 
 Pedro Mediano, Andrea Luppi, and Fernando Rosas, Feb 2021
 
-[[_TOC_]]
-
 
 ## Simulation parameters
 
