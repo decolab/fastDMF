@@ -1,0 +1,123 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "FastDMF",
+  "description": "This repository contains the code for simulating and fitting large-scale brain dynamics using the Dynamic Mean-Field (DMF) model.\n"
+  "FastDMF enables efficient whole-brain simulations across spatial scales—from 90 to 1,000 regions—by combining a C++ core with Python and MATLAB interfaces.\n"
+  "It features an analytic solution for Feedback Inhibition Control (FIC), and a Bayesian optimization framework for parameter fitting to empirical fMRI data.\n\n"
+  "The repository is organized into the following components:\n"
+  "(1) src, C++ implementation of the DMF equations;\n"
+  "(2) matlab_interface, MATLAB bindings for running simulations;\n"
+  "(3) python_interface, Python wrapper for model configuration and execution;\n"
+  "(4) data, example connectomes and parcellation files;\n"
+  "(5) optimization, Bayesian parameter fitting tools;\n"
+  "(6) examples, usage demos for different parcellation scales and parameter regimes.\n\n"
+  "For detailed methodology and usage instructions, please consult the README file:\n"
+  "[README.md](https://github.com/decolab/fastDMF/blob/main/README.md) (https://github.com/decolab/fastDMF/blob/main/README.md).",
+  "codeRepository": "https://github.com/decolab/fastDMF",
+  "downloadUrl": "https://github.com/decolab/fastDMF/releases/tag/v1.0.0",
+  "datePublished": "2024-12-10",
+  "dateModified": "2025-06-26",
+  "version": "1.0.0",
+  "license": "https://opensource.org/licenses/MIT",
+  "applicationCategory": "Neuroscience",
+  "keywords": [
+    "Dynamic Mean-Field model",
+    "whole-brain modeling",
+    "functional connectivity",
+    "neural mass model",
+    "fMRI simulation",
+    "brain dynamics",
+    "biophysical modeling",
+    "feedback inhibition control",
+    "Bayesian optimization"
+  ],
+  "programmingLanguage": [
+    "C++",
+    "Python",
+    "MATLAB"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Ruben",
+      "familyName": "Herzog"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Pedro A. M.",
+      "familyName": "Mediano",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Imperial College London"
+      }
+    },
+    {
+      "@type": "Person",
+      "givenName": "Fernando E.",
+      "familyName": "Rosas"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Andrea I.",
+      "familyName": "Luppi"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Hakwan C.",
+      "familyName": "Lau"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Gustavo",
+      "familyName": "Deco",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Universitat Pompeu Fabra"
+      }
+    }
+  ],
+  "referencePublication": {
+    "@type": "ScholarlyArticle",
+    "name": "Neural mass modeling for the masses: Democratizing access to whole-brain biophysical modeling with FastDMF",
+    "author": [
+      {
+        "@type": "Person",
+        "givenName": "Rub\u00e9n",
+        "familyName": "Herzog"
+      },
+      {
+        "@type": "Person",
+        "givenName": "Pedro A. M.",
+        "familyName": "Mediano"
+      },
+      {
+        "@type": "Person",
+        "givenName": "Fernando E.",
+        "familyName": "Rosas"
+      },
+      {
+        "@type": "Person",
+        "givenName": "Andrea I.",
+        "familyName": "Luppi"
+      },
+      {
+        "@type": "Person",
+        "givenName": "Hakwan C.",
+        "familyName": "Lau"
+      },
+      {
+        "@type": "Person",
+        "givenName": "Gustavo",
+        "familyName": "Deco"
+      }
+    ],
+    "datePublished": "2024-12-10",
+    "journal": "Network Neuroscience",
+    "volume": "8",
+    "issue": "4",
+    "pagination": "1590\u20131612",
+    "publisher": "MIT Press",
+    "identifier": "https://doi.org/10.1162/netn_a_00410"
+  }
+}
