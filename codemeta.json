@@ -2,18 +2,7 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "name": "FastDMF",
-  "description": "This repository contains the code for simulating and fitting large-scale brain dynamics using the Dynamic Mean-Field (DMF) model.\n"
-  "FastDMF enables efficient whole-brain simulations across spatial scales—from 90 to 1,000 regions—by combining a C++ core with Python and MATLAB interfaces.\n"
-  "It features an analytic solution for Feedback Inhibition Control (FIC), and a Bayesian optimization framework for parameter fitting to empirical fMRI data.\n\n"
-  "The repository is organized into the following components:\n"
-  "(1) src, C++ implementation of the DMF equations;\n"
-  "(2) matlab_interface, MATLAB bindings for running simulations;\n"
-  "(3) python_interface, Python wrapper for model configuration and execution;\n"
-  "(4) data, example connectomes and parcellation files;\n"
-  "(5) optimization, Bayesian parameter fitting tools;\n"
-  "(6) examples, usage demos for different parcellation scales and parameter regimes.\n\n"
-  "For detailed methodology and usage instructions, please consult the README file:\n"
-  "[README.md](https://github.com/decolab/fastDMF/blob/main/README.md) (https://github.com/decolab/fastDMF/blob/main/README.md).",
+  "description": "This repository contains the code for simulating and fitting large-scale brain dynamics using the Dynamic Mean-Field (DMF) model.\nFastDMF enables efficient whole-brain simulations across spatial scales—from 90 to 1,000 regions—by combining a C++ core with Python and MATLAB interfaces.\nIt features an analytic solution for Feedback Inhibition Control (FIC), and a Bayesian optimization framework for parameter fitting to empirical fMRI data.\n\nThe repository is organized into the following components:\n(1) src, C++ implementation of the DMF equations;\n(2) matlab_interface, MATLAB bindings for running simulations;\n(3) python_interface, Python wrapper for model configuration and execution;\n(4) data, example connectomes and parcellation files;\n(5) optimization, Bayesian parameter fitting tools;\n(6) examples, usage demos for different parcellation scales and parameter regimes.\n\nFor detailed methodology and usage instructions, please consult the README file:\n[README.md](https://github.com/decolab/fastDMF/blob/main/README.md) (https://github.com/decolab/fastDMF/blob/main/README.md).",
   "codeRepository": "https://github.com/decolab/fastDMF",
   "downloadUrl": "https://github.com/decolab/fastDMF/releases/tag/v1.0.0",
   "datePublished": "2024-12-10",
